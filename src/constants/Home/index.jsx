@@ -1,8 +1,8 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// VLS LAW ACADEMY — DECODING OF PRACTICE
-// Central Program Configuration — Single Source of Truth
+// -------------------------------------------------------------------------
+// VLS LAW ACADEMY \u2014 DECODING OF PRACTICE
+// Central Program Configuration \u2014 Single Source of Truth
 // All dates, fees, modes and operational details must live HERE only.
-// ─────────────────────────────────────────────────────────────────────────────
+// -------------------------------------------------------------------------
 
 /** @type {"announced" | "tba"} */
 const SESSION_STATUS = "announced"; // Change to "tba" when a real date is not confirmed
@@ -15,6 +15,7 @@ export const programConfig = {
   // Set these only when SESSION_STATUS is "announced" and a real date is confirmed:
   date: "Saturday, 15 August 2026",
   time: "10:30 AM - 12:30 PM IST",
+  classStartAt: "2026-08-15T10:30:00+05:30",
   duration: "3 Hours",
   mode: "Live on Google Meet (Interactive Q&A)",
   language: "Tamil",
@@ -32,7 +33,7 @@ export const HomePage = {
       titlebold: "Decoding of Practice",
       descriptor: "Now AI-Assisted",
       hook: "Real Legal Practice. Now Assisted by AI.",
-      desc: "From the first client conversation to case analysis, drafting, filing and courtroom preparation — learn a practical legal workflow enhanced by responsible AI assistance.",
+      desc: "From the first client conversation to case analysis, drafting, filing and courtroom preparation \u2014 learn a practical legal workflow enhanced by responsible AI assistance.",
       coreTagline: "AI Assists. The Advocate Decides.",
     },
 
@@ -81,8 +82,8 @@ export const HomePage = {
       id: 1,
       value:
         SESSION_STATUS === "announced" && programConfig.date
-          ? `${programConfig.date} · ${programConfig.time}`
-          : "Next live session — date to be announced",
+          ? `${programConfig.date} - ${programConfig.time}`
+          : "Next live session \u2014 date to be announced",
       icon: "calendar-clock",
     },
     {
@@ -93,7 +94,7 @@ export const HomePage = {
     {
       id: 3,
       value:
-        "Final-year & fresh LLBs, 0–3 yr advocates, judiciary aspirants, returning professionals",
+        "Final-year & fresh LLBs, 0-3 yr advocates, judiciary aspirants, returning professionals",
       icon: "user",
     },
     {
@@ -103,12 +104,12 @@ export const HomePage = {
     },
     {
       id: 5,
-      value: `₹${programConfig.fee} — ${programConfig.duration} Live Masterclass`,
+      value: `\u20B9${programConfig.fee} \u2014 ${programConfig.duration} Live Masterclass`,
       icon: "hand-coins",
     },
     {
       id: 6,
-      value: "Recording not provided — attend live",
+      value: "Recording not provided \u2014 attend live",
       icon: "mic",
     },
   ],
@@ -151,7 +152,7 @@ export const HomePage = {
 
   workflow: {
     label: "THE PRACTICAL METHOD",
-    heading: "Real legal practice — structured, demonstrated and now AI-assisted.",
+    heading: "Real legal practice \u2014 structured, demonstrated and now AI-assisted.",
     steps: [
       { id: 1, label: "Client Narrative" },
       { id: 2, label: "Material Facts" },
@@ -245,7 +246,7 @@ export const HomePage = {
   ],
 
   promise: {
-    desc: "You studied the law. But when it comes to drafting, filings, or handling your first client — do you feel unsure where to start?",
+    desc: "You studied the law. But when it comes to drafting, filings, or handling your first client \u2014 do you feel unsure where to start?",
     problem: [
       "Theories, case laws, and exams.",
       "Zero practical exposure.",
@@ -262,7 +263,7 @@ export const HomePage = {
   },
 
   what_learn: [
-    "Drafting: Plaints, Notices, Written Statements — with AI-assisted structuring",
+    "Drafting: Plaints, Notices, Written Statements \u2014 with AI-assisted structuring",
     "Legal Documents: Vakalat, Memos, Affidavits, Petitions",
     "Criminal Practice: FIR, Bail, Complaints",
     "Filing & Registration Procedures and e-Courts",
@@ -295,7 +296,7 @@ export const HomePage = {
   who_join: [
     "Fresh LLB graduates who want a practical start",
     "Final-year students preparing for practice",
-    "0–3 year advocates needing clarity & structure",
+    "0-3 year advocates needing clarity & structure",
     "Judiciary aspirants seeking hands-on exposure",
     "Returning professionals restarting their law career",
     "International LLB students learning Indian procedures",
@@ -315,19 +316,19 @@ export const HomePage = {
       id: 1,
       question: "Is this an AI course?",
       answer:
-        "No. Decoding of Practice is a practical legal training masterclass. AI is a supporting tool within the legal workflow — not the subject of study. No programming knowledge is required.",
+        "No. Decoding of Practice is a practical legal training masterclass. AI is a supporting tool within the legal workflow \u2014 not the subject of study. No programming knowledge is required.",
     },
     {
       id: 2,
       question: "Do I need technical or programming knowledge?",
       answer:
-        "None at all. The session focuses on legal practice. AI tools are demonstrated as practical aids — no coding or technical background is needed.",
+        "None at all. The session focuses on legal practice. AI tools are demonstrated as practical aids \u2014 no coding or technical background is needed.",
     },
     {
       id: 3,
       question: "Will AI replace the advocate?",
       answer:
-        "No. AI Assists. The Advocate Decides. AI can help organise information and prepare drafts — but legal accuracy, strategy, verification and professional judgment remain entirely the advocate's responsibility.",
+        "No. AI Assists. The Advocate Decides. AI can help organise information and prepare drafts \u2014 but legal accuracy, strategy, verification and professional judgment remain entirely the advocate's responsibility.",
     },
     {
       id: 4,
@@ -339,24 +340,24 @@ export const HomePage = {
       id: 5,
       question: "Can AI-generated citations be trusted?",
       answer:
-        "Not without verification. The session specifically covers how to check judgments, provisions and citations — and how to detect invented or incorrect AI outputs.",
+        "Not without verification. The session specifically covers how to check judgments, provisions and citations \u2014 and how to detect invented or incorrect AI outputs.",
     },
     {
       id: 6,
       question: "Will the program cover practical drafting and filing?",
       answer:
-        "Yes. The session covers drafting structures, filing procedures, e-Courts, and courtroom preparation — all demonstrated with practical examples.",
+        "Yes. The session covers drafting structures, filing procedures, e-Courts, and courtroom preparation \u2014 all demonstrated with practical examples.",
     },
     {
       id: 7,
       question: "Who should attend?",
       answer:
-        "Final-year law students, fresh LLB graduates, junior advocates (0–3 years), judiciary aspirants, returning legal professionals and international LLB students learning Indian procedures.",
+        "Final-year law students, fresh LLB graduates, junior advocates (0-3 years), judiciary aspirants, returning legal professionals and international LLB students learning Indian procedures.",
     },
     {
       id: 8,
       question: "What is the language of instruction?",
-      answer: "Tamil — for clarity and accessibility.",
+      answer: "Tamil \u2014 for clarity and accessibility.",
     },
     {
       id: 9,
@@ -374,12 +375,12 @@ export const HomePage = {
       id: 11,
       question: "Is a certificate provided?",
       answer:
-        "Yes — certificates are provided to attendees who complete the full session and maintain at least 80% attendance.",
+        "Yes \u2014 certificates are provided to attendees who complete the full session and maintain at least 80% attendance.",
     },
     {
       id: 12,
       question: "What is the fee?",
-      answer: `₹${499}. This registers you for the 3-hour live masterclass.`,
+      answer: `\u20B9${programConfig.fee}. This registers you for the 3-hour live masterclass.`,
     },
     {
       id: 13,
@@ -390,7 +391,7 @@ export const HomePage = {
   ],
 
   razorpay: {
-    title: "Decoding of Practice — AI-Assisted Legal Practice Masterclass",
+    title: "Decoding of Practice \u2014 AI-Assisted Legal Practice Masterclass",
     amount: 499,
   },
 };

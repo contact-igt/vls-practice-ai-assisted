@@ -5,6 +5,8 @@ import Slider from "react-slick";
 import TestimonialCard from "@/common/TestimonialCard";
 import { Popup } from "@/common/Popup";
 import Button from "@/common/Button";
+import { programConfig } from "@/constants/Home";
+import { getSectionCtaText } from "@/utils/programStatus";
 
 const testimonialData = [
   {
@@ -133,7 +135,7 @@ const Testimonial = ({ scrollToContactForm }) => {
         <div className="w-100 d-flex justify-content-center mt-5">
           <Button
             scrollToContactForm={scrollToContactForm}
-            name={"Enroll Now \u20b9499"}
+            name={getSectionCtaText(programConfig, `Enroll Now \u20B9${programConfig.fee}`)}
             icon="calendar-check"
             icon_color="#fff"
             bg_color="rgb(178, 10, 10)"

@@ -1,6 +1,8 @@
 import Button from "@/common/Button";
 import styles from "./styles.module.css";
 import Title from "@/common/Title";
+import { programConfig } from "@/constants/Home";
+import { getSectionCtaText } from "@/utils/programStatus";
 
 const WhyCourse = ({ scrollToContactForm }) => {
   return (
@@ -33,7 +35,7 @@ const WhyCourse = ({ scrollToContactForm }) => {
               </div>
 
               <Button
-                name={"Reserve Your Seat"}
+                name={getSectionCtaText(programConfig, "Reserve Your Seat")}
                 scrollToContactForm={scrollToContactForm}
               />
             </div>

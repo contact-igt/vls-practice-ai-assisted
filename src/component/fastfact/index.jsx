@@ -1,8 +1,23 @@
 import Title from "@/common/Title";
 import styles from "./styles.module.css";
 import { DynamicIcon } from "lucide-react/dynamic";
+import { programConfig } from "@/constants/Home";
+import {
+  DATE_TIME_ANNOUNCEMENT_TEXT,
+  PRICE_ANNOUNCEMENT_TEXT,
+  isRegistrationOpen,
+} from "@/utils/programStatus";
 
 const FastFact = ({ factdata }) => {
+  const registrationOpen = isRegistrationOpen(programConfig);
+
+  const getFactValue = (data) => {
+    if (registrationOpen) return data?.value;
+    if (data?.icon === "calendar-clock") return DATE_TIME_ANNOUNCEMENT_TEXT;
+    if (data?.icon === "hand-coins") return PRICE_ANNOUNCEMENT_TEXT;
+    return data?.value;
+  };
+
   return (
     <section className={styles.factsec}>
       <div className="container">
@@ -19,7 +34,7 @@ const FastFact = ({ factdata }) => {
           <div className="col-lg-6 mt-5 mt-lg-0">
             <div className="row">
               {factdata?.map((data, i) => {
-                const isPriceCard = data?.value?.includes("499");
+                const isPriceCard = data?.icon === "hand-coins";
 
                 return (
                   <div className="col-xxl-6 col-xl-12" key={i}>
@@ -35,7 +50,7 @@ const FastFact = ({ factdata }) => {
                           size={30}
                         />
                       </div>
-                      <p>{data?.value}</p>
+                      <p>{getFactValue(data)}</p>
                     </div>
                   </div>
                 );

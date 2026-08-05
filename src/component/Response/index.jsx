@@ -1,20 +1,23 @@
-import Button from "@/common/Button";
+﻿import Button from "@/common/Button";
 import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const Response = () => {
-  const [userDetail, setUserDetail] = useState();
-  const { query, isReady } = useRouter();
-  const issuccess = isReady && query.response === "thank-you";
-
-  // useEffect(() => {
-  //   setuserDeatil(JSON.parse(localStorage.getItem("PaymentDetails")));
-  // }, []);
+  const [userDetail, setUserDetail] = useState(null);
+  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
+  const { query, isReady, asPath } = router;
+  const routePath = asPath?.split("?")?.[0];
+  const issuccess =
+    mounted &&
+    isReady &&
+    (query.response === "thank-you" || routePath === "/thank-you");
+  const isWaitlist = userDetail?.payment_status === "waitlist";
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    setMounted(true);
 
     try {
       const storedData = localStorage.getItem("PaymentDetails");
@@ -31,11 +34,11 @@ const Response = () => {
     }
   }, []);
 
-  if (!isReady) {
+  if (!mounted || !isReady) {
     return (
       <section className={`pt-5 mt-5 ${styles.responseSection}`}>
         <div className="container text-center">
-          <p>Loading payment status...</p>
+          <p>Loading status...</p>
         </div>
       </section>
     );
@@ -60,14 +63,19 @@ const Response = () => {
 
         <div className={`text-center ${styles.responseInfo}`}>
           <h5 className={issuccess ? styles.successText : styles.errorText}>
-            {issuccess ? "Payment Successful" : "Payment Failed"}
+            {issuccess
+              ? isWaitlist
+                ? "Thank You"
+                : "Payment Successful"
+              : "Payment Failed"}
           </h5>
 
           {issuccess ? (
             <>
               <p>
-                Thank you! Your payment has been received successfully. Below
-                are your transaction details:
+                {isWaitlist
+                  ? "Thank you! Your details have been added to the waitlist."
+                  : "Thank you! Your payment has been received successfully. Below are your transaction details:"}
               </p>
 
               {userDetail ? (
@@ -81,13 +89,17 @@ const Response = () => {
                   <p>
                     <strong>Mobile:</strong> {userDetail?.mobile || "-"}
                   </p>
-                  <p>
-                    <strong>Amount:</strong> ₹{userDetail?.amount || "-"}
-                  </p>
-                  <p>
-                    <strong>Transaction ID:</strong>{" "}
-                    {userDetail?.razorpay_payment_id || "Not Available"}
-                  </p>
+                  {!isWaitlist && (
+                    <>
+                      <p>
+                        <strong>Amount:</strong> {`\u20B9${userDetail?.amount || "-"}`}
+                      </p>
+                      <p>
+                        <strong>Transaction ID:</strong>{" "}
+                        {userDetail?.razorpay_payment_id || "Not Available"}
+                      </p>
+                    </>
+                  )}
                 </div>
               ) : (
                 ""
@@ -95,7 +107,7 @@ const Response = () => {
             </>
           ) : (
             <p>
-              Oops! We couldn’t process your payment. Please try again or call
+              Oops! We couldn\u2019t process your payment. Please try again or call
               us directly for support.
             </p>
           )}
