@@ -63,19 +63,33 @@ const ContactForm = ({ ipAddress }) => {
   const openRazorpay = async () => {
     if (!formValues) return;
 
-    const resp = await fetch("/api/create-order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: HomePage?.razorpay?.amount }),
-    });
+    let order;
 
-    const order = await resp.json();
+    try {
+      const resp = await fetch("/api/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // body: JSON.stringify({ amount: HomePage?.razorpay?.amount }),
+        body: JSON.stringify({ amount: 1 }),
+      });
 
-    if (!resp.ok) {
+      order = await resp.json();
+
+      if (!resp.ok) {
+        router.replace("/error");
+        return;
+      }
+    } catch (error) {
+      console.error("Unable to create Razorpay order", error);
       router.replace("/error");
       return;
     }
 
+    if (typeof window === "undefined" || !window.Razorpay) {
+      console.error("Razorpay checkout script is not available");
+      router.replace("/error");
+      return;
+    }
     const options = {
       // key: "rzp_test_Ss2NFtpJFLRAiw",
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -113,19 +127,26 @@ const ContactForm = ({ ipAddress }) => {
           utm_content: getUTM("utm_content"),
         };
 
+        await safeSetPaymentDetails(apiPayload);
+
         const sessionDate =
           programConfig.sessionStatus === "announced" && programConfig.date
             ? programConfig.date
             : "Date to be announced";
-        await handleWhatsappMessage(
-          `91${formValues.mobile}`,
-          formValues.name,
-          programConfig.fee,
-          "Decoding of Practice — AI-Assisted Legal Practice Masterclass",
-          sessionDate,
-          programConfig.mode,
-          sessionDate
-        );
+
+        try {
+          await handleWhatsappMessage(
+            `91${formValues.mobile}`,
+            formValues.name,
+            programConfig.fee,
+            "Decoding of Practice - AI-Assisted Legal Practice Masterclass",
+            sessionDate,
+            programConfig.mode,
+            sessionDate
+          );
+        } catch (error) {
+          console.error("WhatsApp notification failed after payment", error);
+        }
 
         // await registerUserToDB(apiPayload);
 
@@ -133,10 +154,12 @@ const ContactForm = ({ ipAddress }) => {
         Object.keys(apiPayload).forEach((key) =>
           params.append(key, apiPayload[key] ?? "")
         );
-        await handleGoogleSheetForm(params);
 
-        await safeSetPaymentDetails(apiPayload);
-        // localStorage.setItem("PaymentDetails", JSON.stringify(apiPayload));
+        const sheetSaved = await handleGoogleSheetForm(params);
+        if (!sheetSaved) {
+          console.error("Google Sheet registration failed after payment");
+        }
+
         window.location.href = "/thank-you";
       },
 
@@ -196,7 +219,7 @@ const ContactForm = ({ ipAddress }) => {
   const handleGoogleSheetForm = async (formData, retries = 3, delay = 1500) => {
     try {
       const res = await fetch(
-        "https://script.google.com/macros/s/AKfycbxobI0C2E-HTczBbbsyWSKNq5U5mXJn6WTBGjHOn48ppKaDTqtKzo7vyHGqpP0OEdmiDg/exec",
+ "https://script.google.com/macros/s/AKfycbx130nzdo6NT9hq_szOSMcIR7AbSLL7MCfL_7ho9pHOOvFyYlDybVhBSEW-19xm0X65/exec",
         {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },

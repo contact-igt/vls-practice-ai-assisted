@@ -4,10 +4,15 @@ body {
   overflow-x: hidden;
 }
 
+:root {
+  --register-sticky-height: 88px;
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "Inter", sans-serif !important;
+  padding-bottom: var(--register-sticky-height);
 }
 
 * {
@@ -116,6 +121,10 @@ input:focus {
 }
 
 @media (width < 768px) {
+
+  :root {
+    --register-sticky-height: 78px;
+  }
 
   .accordion-button,
   .accordion-body {

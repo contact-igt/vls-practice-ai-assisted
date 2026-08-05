@@ -1,13 +1,13 @@
-﻿import Button from "@/common/Button";
+import Button from "@/common/Button";
 import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const Response = () => {
-  const [userDetail, setuserDeatil] = useState();
-  const { query } = useRouter();
-  const issuccess = query.response === "thank-you";
+  const [userDetail, setUserDetail] = useState();
+  const { query, isReady } = useRouter();
+  const issuccess = isReady && query.response === "thank-you";
 
   // useEffect(() => {
   //   setuserDeatil(JSON.parse(localStorage.getItem("PaymentDetails")));
@@ -20,18 +20,27 @@ const Response = () => {
       const storedData = localStorage.getItem("PaymentDetails");
 
       if (storedData) {
-        setuserDeatil(JSON.parse(storedData));
+        setUserDetail(JSON.parse(storedData));
       } else {
-        setuserDeatil(null); // or {}
+        setUserDetail(null);
       }
     } catch (error) {
       console.error("Invalid PaymentDetails in localStorage", error);
       localStorage.removeItem("PaymentDetails");
-      setuserDeatil(null);
+      setUserDetail(null);
     }
   }, []);
 
-  console.log("ccc", userDetail?.name);
+  if (!isReady) {
+    return (
+      <section className={`pt-5 mt-5 ${styles.responseSection}`}>
+        <div className="container text-center">
+          <p>Loading payment status...</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className={`pt-5 mt-5 ${styles.responseSection}`}>
       <div className="container">

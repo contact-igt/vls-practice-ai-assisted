@@ -2,12 +2,14 @@
 
 .bannersec {
   position: relative;
+  z-index: 2;
+  isolation: isolate;
   overflow: hidden;
   min-height: 100vh;
   display: flex;
   align-items: center;
   color: #fff;
-  padding: 5rem 0 4rem;
+  padding: 5rem 0 calc(4rem + var(--register-sticky-height));
 }
 
 /* ── Background layer: photo ── */
@@ -175,13 +177,13 @@
 
   .bannersec {
     min-height: auto;
-    padding: 5rem 0 3rem;
+    padding: 5rem 0 calc(3rem + var(--register-sticky-height));
   }
 }
 
 @media (max-width: 767px) {
   .bannersec {
-    padding: 4rem 0 2.5rem;
+    padding: 4rem 0 calc(2.5rem + var(--register-sticky-height));
   }
 
   .subheading {
@@ -199,3 +201,5 @@
     transition: none;
   }
 }
+
+

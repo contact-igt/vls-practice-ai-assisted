@@ -5,7 +5,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 /** @type {"announced" | "tba"} */
-const SESSION_STATUS = "tba"; // Change to "announced" when a real date is confirmed
+const SESSION_STATUS = "announced"; // Change to "tba" when a real date is not confirmed
 
 export const programConfig = {
   name: "Decoding of Practice",
@@ -13,8 +13,8 @@ export const programConfig = {
   category: "AI-Assisted Legal Practice Masterclass",
   sessionStatus: SESSION_STATUS,
   // Set these only when SESSION_STATUS is "announced" and a real date is confirmed:
-  date: null, // e.g. "Sunday, 14 September 2026"
-  time: null, // e.g. "10:30 AM – 01:30 PM IST"
+  date: "Saturday, 15 August 2026",
+  time: "10:30 AM - 12:30 PM IST",
   duration: "3 Hours",
   mode: "Live on Google Meet (Interactive Q&A)",
   language: "Tamil",
@@ -385,7 +385,7 @@ export const HomePage = {
       id: 13,
       question: "When is the next session?",
       answer:
-        "The next session date will be announced shortly. Register your interest and you will be notified when the date is confirmed.",
+        `The next live session is on ${programConfig.date} from ${programConfig.time}.`,
     },
   ],
 
