@@ -1,0 +1,70 @@
+.whycouresec {
+    background-color: #f9f2f2;
+    color: #000 !important;
+}
+
+.course h4 {
+    color: #000;
+}
+
+.course p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #1a1a1a;
+}
+
+.aitag {
+    font-size: 16px !important;
+    color: #444 !important;
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    border-left: 3px solid #b20a0a;
+}
+
+.tagline {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #b20a0a;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.5rem;
+}
+
+.courseimg {
+    width: 100%;
+    height: 440px;
+}
+
+.courseimg img {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+@media (max-width: 1199px) {
+    .courseimg {
+        height: auto;
+    }
+}
+
+@media (max-width: 991px) {
+    .courseimg {
+        height: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .course p {
+        font-size: 15px;
+    }
+
+    .course {
+        text-align: center;
+    }
+
+    .aitag {
+        text-align: left;
+    }
+}

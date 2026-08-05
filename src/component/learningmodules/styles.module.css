@@ -1,0 +1,150 @@
+.modulessec {
+    background-color: #fff;
+}
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.modcard {
+    border: 1.5px solid rgba(178, 10, 10, 0.15);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    transition: border-color 0.15s ease;
+}
+
+.modcard.modopen {
+    border-color: #b20a0a;
+}
+
+.modheader {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s ease;
+}
+
+.modopen .modheader {
+    background: #b20a0a;
+}
+
+.modheader:focus-visible {
+    outline: 2px solid #b20a0a;
+    outline-offset: -2px;
+}
+
+.modnum {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #b20a0a;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.modopen .modnum {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.modtitle {
+    flex: 1;
+    font-size: 0.97rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.3;
+}
+
+.modopen .modtitle {
+    color: #fff;
+}
+
+/* Module body */
+.modbody {
+    padding: 1rem 1.2rem 1.2rem;
+    background: #fafafa;
+    border-top: 1px solid rgba(178, 10, 10, 0.1);
+}
+
+.modbody[hidden] {
+    display: none;
+}
+
+.topicslist {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+}
+
+.topicitem {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.35rem 0;
+}
+
+.topicitem span {
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1.45;
+}
+
+.outcome {
+    font-size: 0.88rem;
+    color: #555;
+    background: rgba(178, 10, 10, 0.06);
+    border-left: 3px solid #b20a0a;
+    padding: 0.65rem 0.9rem;
+    border-radius: 0 6px 6px 0;
+    line-height: 1.5;
+}
+
+.outcome strong {
+    color: #b20a0a;
+}
+
+/* Image */
+.modimg {
+    position: sticky;
+    top: 80px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.modimg img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 767px) {
+    .modheader {
+        padding: 0.85rem 1rem;
+    }
+
+    .modtitle {
+        font-size: 0.9rem;
+    }
+
+    .modbody {
+        padding: 0.85rem 1rem 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modcard,
+    .modheader {
+        transition: none;
+    }
+}

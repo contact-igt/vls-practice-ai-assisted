@@ -1,0 +1,81 @@
+.responseSection {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.responseIcon {
+    margin-bottom: 28px;
+}
+
+.responseIcon img {
+    max-width: 130px;
+    height: auto;
+}
+
+.responseInfo {
+    margin-bottom: 30px;
+}
+
+.responseInfo h5 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.successText {
+    color: #28a745;
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.errorText {
+    color: #dc3545;
+}
+
+.responseInfo p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.summaryBox {
+    margin: 0 auto;
+    padding: 10px 24px 32px;
+    max-width: 600px;
+    background: transparent;
+    border: none;
+    text-align: center;
+}
+
+.summaryBox p {
+    margin: 8px 0;
+    font-size: 1.15rem;
+    color: #444;
+    line-height: 1.7;
+}
+
+.responseCta a {
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .successText {
+        font-size: 1.8rem;
+    }
+
+    .summaryBox p {
+        font-size: 1rem;
+    }
+
+    .responseIcon img {
+        max-width: 90px;
+    }
+
+    .responseCta a button {
+        margin: 10px 0px;
+    }
+}

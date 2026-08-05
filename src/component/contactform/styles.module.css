@@ -1,0 +1,137 @@
+.formcardbottom form {
+    width: 100%;
+    max-width: 540px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 30px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    /* Explicit opacity:1 prevents any inherited stacking-context fade */
+    opacity: 1;
+}
+
+.formcardbottom {
+    display: flex;
+    justify-content: center;
+}
+
+
+.inputgrp {
+    margin-top: 15px;
+}
+
+.inputgrp label {
+    font-size: 14px;
+    color: #000 !important;
+
+}
+
+.inputgrp input {
+    border: 2px solid #b20a0a;
+    margin: 8px 0;
+    padding: 12px;
+    font-size: 15px;
+}
+
+.formtitle p {
+    font-size: 15px;
+    text-align: center;
+    margin-top: 10px;
+    color: #787373;
+}
+
+.formtitle h4 {
+    font-size: 30px;
+    text-align: center;
+    color: #000;
+}
+
+.inputmobilecode {
+    background: #ffff;
+    color: #615f5f;
+    width: 71px;
+    border-radius: 6px 0px 0px 6px;
+    top: -8px;
+}
+
+
+.inputmobile {
+    padding-left: 82px !important;
+}
+
+
+.loadingPopup {
+    color: #000;
+    width: 500px;
+    text-align: center;
+    padding: 30px 10px;
+}
+
+.loadingPopup h4 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #b20a0a;
+}
+
+.loadingPopup h6 {
+    font-size: 16px !important;
+    margin: 20px 0px;
+}
+
+.loadingPopup p {
+    font-size: 14px !important;
+    font-weight: 500;
+    margin: 30px 0px;
+}
+
+.instructionbtn button {
+    font-size: 16px;
+    padding: 18px 40px;
+    border: none;
+    font-weight: 600;
+    background: #b20a0a !important;
+    color: #fff !important;
+    border-radius: 100px !important;
+    width: 100%;
+}
+
+
+
+@media (width < 768px) {
+
+    .inputgrp input {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .loadingPopup {
+        width: 100% !important;
+        padding: 20px 0px;
+    }
+
+    .loadingPopup h4 {
+        font-size: 16px !important;
+        margin: 0px;
+    }
+
+    .loadingPopup p {
+        margin: 20px;
+    }
+
+    .loadingPopup p,
+    .loadingPopup h6 {
+        font-size: 14px !important;
+    }
+
+    .instructionbtn button {
+        font-size: 14px;
+        padding: 15px 40px;
+        border: none;
+        font-weight: 600;
+        background: #b20a0a !important;
+        color: #fff !important;
+        border-radius: 100px !important;
+        width: 100%;
+    }
+
+
+}

@@ -1,0 +1,85 @@
+.gapsec {
+    background-color: #fff;
+}
+
+.gaplabel {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #b20a0a;
+    margin-bottom: 0.75rem;
+}
+
+.gapheading {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    color: #1a1a1a;
+    max-width: 680px;
+    line-height: 1.25;
+    margin-bottom: 0;
+}
+
+.gapcard {
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+    background: #f9f2f2;
+    border-radius: 12px;
+    padding: 1.4rem 1.3rem;
+    height: 100%;
+    border: 1px solid rgba(178, 10, 10, 0.08);
+    transition: box-shadow 0.15s ease;
+}
+
+.gapcard:hover {
+    box-shadow: 0 4px 18px rgba(178, 10, 10, 0.1);
+}
+
+.gapcardicon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    background: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+}
+
+.gapcardcontent {
+    flex: 1;
+}
+
+.gapcardq {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.35;
+    margin-bottom: 0.5rem;
+}
+
+.gapcarda {
+    font-size: 0.9rem;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+    .gapcard {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .gapcardq {
+        font-size: 0.95rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gapcard {
+        transition: none;
+    }
+}

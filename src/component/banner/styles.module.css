@@ -1,0 +1,201 @@
+/* ── BANNER / HERO ──────────────────────────────────────────────────── */
+
+.bannersec {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  padding: 5rem 0 4rem;
+}
+
+/* ── Background layer: photo ── */
+/* z-index: -2  → furthest back */
+.bgWrap {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-color: #1a1a1a; /* fallback while image loads */
+}
+
+.bgimg {
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* ── Overlay: gradient — background only, never touches foreground ── */
+/* z-index: -1 → above photo, below all content */
+.bannersec::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Strong dark on left for text legibility, fades to ~15% by 65%, 
+     almost clear on the right so the Lady Justice image stays visible */
+  background: linear-gradient(
+    to right,
+    rgba(10, 10, 10, 0.85) 0%,
+    rgba(10, 10, 10, 0.60) 45%,
+    rgba(10, 10, 10, 0.18) 65%,
+    rgba(10, 10, 10, 0.04) 100%
+  );
+  z-index: -1;          /* ← KEY FIX: sits above photo (-2) but below content (auto / 1) */
+  pointer-events: none;
+}
+
+/* ── Foreground: container holds all visible content ── */
+/* isolation: isolate creates a new stacking context so the form card
+   and text are always painted above the ::after overlay, regardless of
+   whether children declare z-index */
+.bannersec .container {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;   /* ← guarantees form card paints above overlay */
+}
+
+/* ── Hero text block ── */
+.bannertitle {
+  padding-right: 1.5rem;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85) !important; /* slightly brighter than before */
+  margin-bottom: 1.1rem;
+}
+
+/* H1 — Decoding of Practice */
+.mainheading {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5); /* extra punch on heading */
+}
+
+/* AI Badge */
+.aibadge {
+  display: inline-block;
+  margin-bottom: 1.4rem;
+}
+
+.aibadgeinner {
+  display: inline-block;
+  background-color: #b20a0a;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: 4px;
+}
+
+/* Hook line */
+.hookline {
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  font-weight: 600;
+  color: #ffffff !important;
+  margin-bottom: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Supporting paragraph */
+.subheading {
+  font-size: 0.97rem;
+  color: rgba(255, 255, 255, 0.9) !important; /* brighter */
+  line-height: 1.65;
+  margin-bottom: 1.1rem;
+  max-width: 560px;
+}
+
+/* Core tagline */
+.coretagline {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f5c518 !important;
+  margin-bottom: 1.6rem;
+  letter-spacing: 0.04em;
+}
+
+/* Benefits list */
+.bannerpoint {
+  margin-bottom: 2rem;
+}
+
+.pointwise {
+  margin-bottom: 0.4rem;
+}
+
+.pointwise span {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.95); /* near full white */
+  line-height: 1.4;
+}
+
+/* ── Form column ── */
+/* Ensures the form card is always visually on top of the overlay */
+.formcol {
+  position: relative;
+  z-index: 2;
+}
+
+/* Secondary CTA */
+.secondarycta {
+  margin-top: 0.5rem;
+}
+
+.ctasecondary {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  color: #fff;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.ctasecondary:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Responsive ── */
+@media (max-width: 991px) {
+  .bannertitle {
+    padding-right: 0;
+  }
+
+  .bannersec {
+    min-height: auto;
+    padding: 5rem 0 3rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .bannersec {
+    padding: 4rem 0 2.5rem;
+  }
+
+  .subheading {
+    max-width: 100%;
+  }
+
+  /* On mobile the gradient can be uniform dark since text + form stack vertically */
+  .bannersec::after {
+    background: rgba(10, 10, 10, 0.72);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ctasecondary {
+    transition: none;
+  }
+}
