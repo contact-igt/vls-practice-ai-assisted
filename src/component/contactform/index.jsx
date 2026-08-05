@@ -10,6 +10,10 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Popup } from "@/common/Popup";
 import { AcademyRegisterQuery } from "@/hooks/useAcademyTrainingQuery";
+import {
+  PRICE_ANNOUNCEMENT_TEXT,
+  isRegistrationOpen,
+} from "@/utils/programStatus";
 
 const ContactForm = ({ ipAddress }) => {
   const router = useRouter();
@@ -20,6 +24,13 @@ const ContactForm = ({ ipAddress }) => {
   const [processing, setProcessing] = useState(false);
   const [formValues, setFormValues] = useState(null);
 
+  const registrationOpen = isRegistrationOpen(programConfig);
+  const formTitle = registrationOpen ? "Reserve" : "Join";
+  const formSpanTitle = registrationOpen ? "Your Seat" : "Waitlist";
+  const formSubtitle = registrationOpen
+    ? `Decoding of Practice \u2014 \u20B9${programConfig.fee}`
+    : `Decoding of Practice \u2014 ${PRICE_ANNOUNCEMENT_TEXT}`;
+
   const getUTM = (key) => {
     if (typeof window === "undefined") return "";
     try {
@@ -28,7 +39,54 @@ const ContactForm = ({ ipAddress }) => {
       return "";
     }
   };
-  // ---------------- FORM ----------------
+
+  const getProgramDate = () =>
+    programConfig.sessionStatus === "announced" && programConfig.date
+      ? programConfig.date
+      : "TBA";
+
+  const createBasePayload = (values) => ({
+    name: values?.name || "",
+    email: values?.email || "",
+    mobile: `+91${values?.mobile || ""}`,
+    programm_date: getProgramDate(),
+    page_name: "decoding-of-practice",
+    ip_address: ipAddress,
+    utm_source: getUTM("utm_source"),
+    utm_medium: getUTM("utm_medium"),
+    utm_campaign: getUTM("utm_campaign"),
+    utm_term: getUTM("utm_term"),
+    utm_content: getUTM("utm_content"),
+  });
+
+  const submitWaitlist = async (values) => {
+    setProcessing(true);
+
+    const apiPayload = {
+      ...createBasePayload(values),
+      amount: "",
+      razorpay_order_id: "",
+      razorpay_payment_id: "",
+      razorpay_signature: "",
+      payment_status: "waitlist",
+      captured: "",
+    };
+
+    await safeSetPaymentDetails(apiPayload);
+
+    const params = new URLSearchParams();
+    Object.keys(apiPayload).forEach((key) =>
+      params.append(key, apiPayload[key] ?? "")
+    );
+
+    const sheetSaved = await handleGoogleSheetForm(params);
+    if (!sheetSaved) {
+      console.error("Google Sheet waitlist submission failed");
+    }
+
+    window.location.href = "/thank-you";
+  };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -51,17 +109,26 @@ const ContactForm = ({ ipAddress }) => {
         .matches(/^[0-9]{10}$/, "Invalid mobile number"),
     }),
 
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setFormValues(values);
+
+      if (!isRegistrationOpen(programConfig)) {
+        await submitWaitlist(values);
+        return;
+      }
+
       setAgree(false);
       setInstructionOpen(true);
     },
   });
 
-  // ---------------- RAZORPAY ----------------
-
   const openRazorpay = async () => {
     if (!formValues) return;
+
+    if (!isRegistrationOpen(programConfig)) {
+      await submitWaitlist(formValues);
+      return;
+    }
 
     let order;
 
@@ -70,7 +137,6 @@ const ContactForm = ({ ipAddress }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: HomePage?.razorpay?.amount }),
-        // body: JSON.stringify({ amount: 1 }),
       });
 
       order = await resp.json();
@@ -90,14 +156,14 @@ const ContactForm = ({ ipAddress }) => {
       router.replace("/error");
       return;
     }
+
     const options = {
-      // key: "rzp_test_Ss2NFtpJFLRAiw",
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
       amount: order.amount,
       currency: order.currency,
       name: formValues.name,
       order_id: order.id,
-      description: `${HomePage?.razorpay?.title} - ₹${HomePage?.razorpay?.amount}`,
+      description: `${HomePage?.razorpay?.title} - \u20B9${HomePage?.razorpay?.amount}`,
 
       handler: async (response) => {
         if (!response?.razorpay_payment_id) {
@@ -108,23 +174,13 @@ const ContactForm = ({ ipAddress }) => {
         setProcessing(true);
 
         const apiPayload = {
-          name: formValues?.name || "",
-          email: formValues?.email,
-          mobile: `+91${formValues?.mobile}`,
+          ...createBasePayload(formValues),
           amount: order?.amount / 100,
-          programm_date: programConfig.sessionStatus === "announced" && programConfig.date ? programConfig.date : "TBA",
           razorpay_order_id: response.razorpay_order_id || "",
           razorpay_payment_id: response.razorpay_payment_id || "",
           razorpay_signature: response.razorpay_signature || "",
           payment_status: "paid",
           captured: response.captured || "",
-          page_name: "decoding-of-practice",
-          ip_address: ipAddress,
-          utm_source: getUTM("utm_source"),
-          utm_medium: getUTM("utm_medium"),
-          utm_campaign: getUTM("utm_campaign"),
-          utm_term: getUTM("utm_term"),
-          utm_content: getUTM("utm_content"),
         };
 
         await safeSetPaymentDetails(apiPayload);
@@ -147,8 +203,6 @@ const ContactForm = ({ ipAddress }) => {
         } catch (error) {
           console.error("WhatsApp notification failed after payment", error);
         }
-
-        // await registerUserToDB(apiPayload);
 
         const params = new URLSearchParams();
         Object.keys(apiPayload).forEach((key) =>
@@ -219,21 +273,19 @@ const ContactForm = ({ ipAddress }) => {
   const handleGoogleSheetForm = async (formData, retries = 3, delay = 1500) => {
     try {
       const res = await fetch(
- "https://script.google.com/macros/s/AKfycbx130nzdo6NT9hq_szOSMcIR7AbSLL7MCfL_7ho9pHOOvFyYlDybVhBSEW-19xm0X65/exec",
+        "https://script.google.com/macros/s/AKfycbx130nzdo6NT9hq_szOSMcIR7AbSLL7MCfL_7ho9pHOOvFyYlDybVhBSEW-19xm0X65/exec",
         {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: formData.toString(),
         }
       );
-      console.log(res);
       const text = await res.text();
       console.log("Google Sheet Response:", text);
       if (res.ok) {
         return true;
-      } else {
-        throw new Error("Sheet responded with non-OK");
       }
+      throw new Error("Sheet responded with non-OK");
     } catch (err) {
       console.error(
         `Google Sheet attempt failed. Retries left: ${retries}, err `
@@ -258,7 +310,6 @@ const ContactForm = ({ ipAddress }) => {
     }
   };
 
-  // ---------------- UI ----------------
   return (
     <>
       <div className={styles?.formcardbottom} id="contact_form">
@@ -269,9 +320,9 @@ const ContactForm = ({ ipAddress }) => {
         >
           <div className={styles.formtitle}>
             <Title
-              title1={"Reserve"}
-              spantitle={"Your Seat"}
-              subtitle={`Decoding of Practice — ₹${programConfig.fee}`}
+              title1={formTitle}
+              spantitle={formSpanTitle}
+              subtitle={formSubtitle}
             />
           </div>
           <div className={styles.inputgrp}>
@@ -324,15 +375,19 @@ const ContactForm = ({ ipAddress }) => {
             )}
           </div>
 
-         <div className={`mt-4 d-md-flex justify-content-center`}>
-            <Button name={"SUBMIT"} type={"submit"} />
+          <div className={`mt-4 d-md-flex justify-content-center`}>
+            <Button
+              name={registrationOpen ? "SUBMIT" : "JOIN WAITLIST"}
+              type={"submit"}
+              disabled={processing}
+            />
           </div>
         </form>
       </div>
 
       <Popup open={instructionOpen} onClose={() => setInstructionOpen(false)}>
         <div className={styles.loadingPopup}>
-          <h4>⚠️ Important Payment Instruction</h4>
+          <h4>{'\u26A0\uFE0F'} Important Payment Instruction</h4>
 
           <h6>
             After completing the payment, please wait until you are redirected
@@ -384,10 +439,9 @@ const ContactForm = ({ ipAddress }) => {
         </div>
       </Popup>
 
-      {/* ⏳ Processing Popup */}
       <Popup open={processing} onClose={() => setProcessing(false)}>
         <div className={styles.loadingPopup}>
-          <h4>⏳ Processing Payment</h4>
+          <h4>{registrationOpen ? "? Processing Payment" : "Submitting Details"}</h4>
           <p>Please wait. Do not close or refresh this page.</p>
         </div>
       </Popup>

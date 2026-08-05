@@ -1,41 +1,87 @@
-.bottomfix {
-  width: 100%;
-  background: linear-gradient(165deg, #b20a0a, #000);
+.registrationSticky,
+.waitlistSticky {
   position: fixed;
-  color: white;
-  bottom: 0;
   left: 0;
-  z-index: 20;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  width: 100%;
+  min-height: 76px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  background: linear-gradient(165deg, #b20a0a, #000);
+  box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.18);
+  color: #fff;
 }
 
-.actionRow {
+.bottomfix {
+  composes: registrationSticky;
+}
+
+.waitlistTitle {
+  min-width: 0;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.registrationTitle {
+  min-width: 0;
+  color: #fff;
+}
+
+.registrationTitle h4 {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 0.25rem;
+  color: #fff;
+}
+
+.registrationTitle p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 0;
+}
+
+.registrationActions {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 18px;
 }
 
-.pricebtn > button,
-.pricebtn > button:hover,
-.pricebtn > button:focus {
+.registrationButton,
+.registrationButton:hover,
+.registrationButton:focus,
+.waitlistButton,
+.waitlistButton:hover,
+.waitlistButton:focus {
+  min-height: 46px;
+  min-width: 220px;
+  border: 0;
+  border-radius: 999px;
   background-color: #b20a0a;
+  color: #fff;
   padding: 10px 30px;
-}
-
-.meuntitle h4 {
   font-size: 17px;
   font-weight: 700;
-  margin-bottom: 0.25rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
-.sessioninfo {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.78);
-  margin-bottom: 0;
-}
-
-.meuntitle span {
-  font-size: 22px !important;
+.registrationButton:focus-visible,
+.waitlistButton:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }
 
 .priceWrap {
@@ -74,11 +120,23 @@
 }
 
 @media (width < 992px) {
-  .bottomfix {
-    box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.18);
+  .registrationSticky,
+  .waitlistSticky {
+    min-height: 64px;
+    padding: 10px 12px;
   }
 
-  .actionRow {
+  .waitlistSticky {
+    justify-content: center;
+  }
+
+  .waitlistTitle,
+  .registrationTitle {
+    display: none;
+  }
+
+  .registrationActions {
+    width: 100%;
     min-height: 64px;
     justify-content: space-between;
     gap: 12px;
@@ -113,19 +171,29 @@
     color: #fff;
   }
 
-  .pricebtn > button,
-  .pricebtn > button:hover,
-  .pricebtn > button:focus {
+  .registrationButton,
+  .registrationButton:hover,
+  .registrationButton:focus,
+  .waitlistButton,
+  .waitlistButton:hover,
+  .waitlistButton:focus {
     min-height: 42px;
     min-width: 134px;
     padding: 9px 16px;
     font-size: 15px;
     white-space: nowrap;
   }
+
+  .waitlistButton,
+  .waitlistButton:hover,
+  .waitlistButton:focus {
+    min-width: 180px;
+    padding: 9px 22px;
+  }
 }
 
 @media (width < 360px) {
-  .actionRow {
+  .registrationActions {
     gap: 8px;
   }
 
@@ -137,9 +205,9 @@
     font-size: 22px;
   }
 
-  .pricebtn > button,
-  .pricebtn > button:hover,
-  .pricebtn > button:focus {
+  .registrationButton,
+  .registrationButton:hover,
+  .registrationButton:focus {
     min-width: 118px;
     padding-inline: 12px;
     font-size: 14px;

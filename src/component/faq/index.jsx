@@ -1,7 +1,24 @@
 import Title from "@/common/Title";
 import styles from "./styles.module.css";
+import { programConfig } from "@/constants/Home";
+import {
+  DATE_TIME_ANNOUNCEMENT_TEXT,
+  PRICE_ANNOUNCEMENT_TEXT,
+  isRegistrationOpen,
+} from "@/utils/programStatus";
 
 const FAQ = ({ faqdata }) => {
+  const registrationOpen = isRegistrationOpen(programConfig);
+
+  const getAnswer = (item) => {
+    if (registrationOpen) return item.answer;
+    if (item.question === "What is the fee?") return PRICE_ANNOUNCEMENT_TEXT;
+    if (item.question === "When is the next session?") {
+      return DATE_TIME_ANNOUNCEMENT_TEXT;
+    }
+    return item.answer;
+  };
+
   return (
     <section className={styles.faqsec}>
       <div className="container">
@@ -34,7 +51,7 @@ const FAQ = ({ faqdata }) => {
                 aria-labelledby={`heading${item.id}`}
                 data-bs-parent="#faqAccordion"
               >
-                <div className={` accordion-body ${styles.faqanswer}`}>{item.answer}</div>
+                <div className={` accordion-body ${styles.faqanswer}`}>{getAnswer(item)}</div>
               </div>
             </div>
           ))}

@@ -2,6 +2,8 @@ import Title from "@/common/Title";
 import { DynamicIcon } from "lucide-react/dynamic";
 import styles from "./styles.module.css";
 import Button from "@/common/Button";
+import { programConfig } from "@/constants/Home";
+import { getSectionCtaText } from "@/utils/programStatus";
 
 const WhyVls = ({ whyvlsdata, scrollToContactForm }) => {
   return (
@@ -24,7 +26,7 @@ const WhyVls = ({ whyvlsdata, scrollToContactForm }) => {
             </div>
 
             <Button
-              name={"Register Now"}
+              name={getSectionCtaText(programConfig, "Register Now")}
               scrollToContactForm={scrollToContactForm}
             />
           </div>
