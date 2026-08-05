@@ -1,11 +1,35 @@
 import React, { useState } from "react";
 import styles from "./styles.module.css";
-import { DynamicIcon } from "lucide-react/dynamic";
 import Title from "@/common/Title";
 import Slider from "react-slick";
 import TestimonialCard from "@/common/TestimonialCard";
 import { Popup } from "@/common/Popup";
 import Button from "@/common/Button";
+
+const testimonialData = [
+  {
+    name: "Our Students",
+    description:
+      "Hi, I'm Akshara Prithashini. I've been practicing in Ooty for the past two years. When I first came to Chennai, I was completely unsure about where to start. Joining VLS Law Academy gave me the right direction and confidence to build my practice.",
+    imgUrl: "/assets/home/testimonialimg1.jpg",
+    videoUrl:
+      "https://res.cloudinary.com/dd3olj1ax/video/upload/v1761892348/vls-testimonal3_ajrnrk.mp4",
+  },
+  {
+    name: "Our Students",
+    imgUrl: "/assets/home/testimonialimg2.png",
+    videoUrl:
+      "https://res.cloudinary.com/dd3olj1ax/video/upload/v1762343697/vls_testimonal4_fmdamk.mp4",
+  },
+  {
+    name: "R.Jedidiah",
+    description:
+      "Hi everyone, I'm R.Jedidiah. Being part of VLS Law Academy's Decoding of Practice course has been an incredible experience. I learned how to apply legal theory to real-world situations, and it's truly boosted my confidence as a law student.",
+    imgUrl: "/assets/home/testimonialimg3.png",
+    videoUrl:
+      "https://res.cloudinary.com/dd3olj1ax/video/upload/v1761891831/vls-testimoanl1_ddcvpb.mp4",
+  },
+];
 
 const Testimonial = ({ scrollToContactForm }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,37 +39,16 @@ const Testimonial = ({ scrollToContactForm }) => {
     setSelectedVideo(videoUrl);
     setIsModalOpen(true);
   };
+
   const closeModal = () => {
     setSelectedVideo(null);
     setIsModalOpen(false);
   };
-  const testimonialData = [
-    {
-      name: "Our Students",
-      description: "Hi, I’m Akshara Prithashini. I’ve been practicing in Ooty for the past two years. When I first came to Chennai, I was completely unsure about where to start — joining VLS Law Academy gave me the right direction and confidence to build my practice.",
-      imgUrl: "/assets/home/testimonialimg1.jpg",
-      videoUrl:
-        "https://res.cloudinary.com/dd3olj1ax/video/upload/v1761892348/vls-testimonal3_ajrnrk.mp4",
-    },
-    {
-      imgUrl: "/assets/home/testimonialimg2.png",
-      videoUrl:
-        "https://res.cloudinary.com/dd3olj1ax/video/upload/v1762343697/vls_testimonal4_fmdamk.mp4",
-    },
-    {
-      name: "R.Jedidiah",
-      description: "Hi Everyone, I’m R.Jedidiah. Being part of VLS Law Academy’s Decoding of Practice course has been an incredible experience. I learned how to apply legal theory to real-world situations, and it’s truly boosted my confidence as a law student.",
-      imgUrl: "/assets/home/testimonialimg3.png",
-      videoUrl:
-        "https://res.cloudinary.com/dd3olj1ax/video/upload/v1761891831/vls-testimoanl1_ddcvpb.mp4",
-    },
-  ];
 
-  var settings = {
+  const settings = {
     dots: false,
     infinite: false,
     arrows: true,
-    loop: true,
     slidesToShow: 3,
     slidesToScroll: 3,
     autoplay: false,
@@ -65,7 +68,6 @@ const Testimonial = ({ scrollToContactForm }) => {
           infinite: false,
         },
       },
-
       {
         breakpoint: 992,
         settings: {
@@ -105,51 +107,53 @@ const Testimonial = ({ scrollToContactForm }) => {
   return (
     <section className={styles.testimonalsec} aria-labelledby="testimonials-heading">
       <div className="container">
-               <div className="d-flex justify-content-center">
-          <Title title1={"Our Student"} spantitle={"Testimonials"} id="testimonials-heading" />
+        <div className="d-flex justify-content-center">
+          <Title
+            title1="Our Student"
+            spantitle="Testimonials"
+            id="testimonials-heading"
+          />
         </div>
 
         <div className={styles.testimonialContainer}>
-          <Slider
-            // key={slidesToShow + (centerMode ? "c" : "")}
-            {...settings}
-            className={styles.sliderWrapper}
-          >
-            {testimonialData?.map((item, index) => (
-              <div key={index} className={styles.slideWrapperItem}>
+          <Slider {...settings} className={styles.sliderWrapper}>
+            {testimonialData.map((item, index) => (
+              <div key={`${item.imgUrl}-${index}`} className={styles.slideWrapperItem}>
                 <TestimonialCard
-                  imageSrc={item?.imgUrl}
+                  imageSrc={item.imgUrl}
                   openModal={() => openModal(item.videoUrl)}
-                  name={item?.name}
-                  testimonial={item?.description}
+                  name={item.name}
+                  testimonial={item.description}
                 />
               </div>
             ))}
           </Slider>
         </div>
 
-               <div className="w-100 d-flex justify-content-center mt-5">
+        <div className="w-100 d-flex justify-content-center mt-5">
           <Button
             scrollToContactForm={scrollToContactForm}
-            name="Enroll Now ₹499"
-            icon={"calendar-check"}
-            icon_color={"#fff"}
+            name={"Enroll Now \u20b9499"}
+            icon="calendar-check"
+            icon_color="#fff"
             bg_color="rgb(178, 10, 10)"
             name_color="#fff"
           />
+        </div>
       </div>
-      </div>
+
       <Popup open={isModalOpen} onClose={closeModal} variant="video">
         <button
+          type="button"
           className={styles.closeButton}
           onClick={closeModal}
-          style={{ float: "right", marginBottom: "10px" }}
+          aria-label="Close testimonial video"
         >
-          ✖
+          &times;
         </button>
 
         {selectedVideo && (
-          <video width="100%" height="500px" controls>
+          <video className={styles.videoPlayer} width="100%" controls autoPlay>
             <source src={selectedVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>

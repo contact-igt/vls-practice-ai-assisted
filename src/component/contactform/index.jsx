@@ -69,8 +69,8 @@ const ContactForm = ({ ipAddress }) => {
       const resp = await fetch("/api/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // body: JSON.stringify({ amount: HomePage?.razorpay?.amount }),
-        body: JSON.stringify({ amount: 1 }),
+        body: JSON.stringify({ amount: HomePage?.razorpay?.amount }),
+        // body: JSON.stringify({ amount: 1 }),
       });
 
       order = await resp.json();

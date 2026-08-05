@@ -41,7 +41,7 @@ export default function Document() {
                      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
                      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
                      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                     })(window, document, "clarity", "script", "twoosrzeg4");`,
+                     })(window, document, "clarity", "script", "xxmf9savzj");`,
           }}
           strategy="lazyOnload"
         />
@@ -58,7 +58,7 @@ export default function Document() {
               t.src=v;s=b.getElementsByTagName(e)[0];
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '1674075823703901');
+              fbq('init', '1728779184910879');
               fbq('track', 'PageView');`,
           }}
           strategy="lazyOnload"
@@ -79,7 +79,7 @@ export default function Document() {
             height="1"
             width="1"
             style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=1674075823703901&ev=PageView&noscript=1"
+            src="https://www.facebook.com/tr?id=1728779184910879&ev=PageView&noscript=1"
             alt=""
           />
         </noscript>
@@ -92,3 +92,4 @@ export default function Document() {
     </Html>
   );
 }
+

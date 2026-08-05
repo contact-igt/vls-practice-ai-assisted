@@ -1,9 +1,9 @@
 import styles from "./styles.module.css";
 
-const Title = ({ title1, title2, spantitle, subtitle }) => {
+const Title = ({ title1, title2, spantitle, subtitle, id }) => {
   return (
     <div className={styles.commntitle}>
-      <h4>
+      <h4 id={id}>
         {title1} <span>{` ${spantitle ? spantitle : ""} `}</span>
         {title2}
       </h4>

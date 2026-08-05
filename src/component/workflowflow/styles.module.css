@@ -16,32 +16,43 @@
     font-size: clamp(1.3rem, 2.8vw, 1.85rem);
     font-weight: 800;
     color: #fff;
-    max-width: 700px;
+    max-width: 760px;
     line-height: 1.3;
     margin-bottom: 3rem;
 }
 
-/* ── Steps row ── */
 .stepsrow {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0;
-    margin-bottom: 2rem;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: 100%;
+    margin-bottom: 2.25rem;
 }
 
 .stepwrapper {
     display: flex;
     align-items: center;
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.stepwrapper:last-child {
+    flex: 0 1 260px;
 }
 
 .stepcard {
     background: #2a2a2a;
     border: 1px solid rgba(178, 10, 10, 0.3);
     border-radius: 10px;
-    padding: 0.85rem 1rem;
-    min-width: 110px;
+    padding: 0.85rem 0.8rem;
+    width: 100%;
+    min-width: 0;
+    min-height: 90px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     transition: background 0.15s ease, border-color 0.15s ease;
 }
 
@@ -67,11 +78,15 @@
     font-weight: 700;
     color: #fff;
     line-height: 1.3;
+    overflow-wrap: anywhere;
 }
 
 .steparrow {
-    padding: 0 0.4rem;
-    flex-shrink: 0;
+    width: 34px;
+    flex: 0 0 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .workflownote {
@@ -83,36 +98,48 @@
     padding-top: 1.25rem;
 }
 
-/* ── Mobile: vertical stack ── */
-@media (max-width: 767px) {
+@media (max-width: 1199px) {
     .stepsrow {
-        flex-direction: column;
-        align-items: stretch;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.85rem;
+    }
+
+    .stepwrapper,
+    .stepwrapper:last-child {
+        display: block;
+        min-width: 0;
+    }
+
+    .steparrow {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .wfheading {
+        margin-bottom: 2rem;
+    }
+
+    .stepsrow {
+        grid-template-columns: 1fr;
         gap: 0.5rem;
     }
 
-    .stepwrapper {
-        flex-direction: column;
-    }
-
     .stepcard {
-        width: 100%;
+        min-height: unset;
         display: flex;
+        flex-direction: row;
         align-items: center;
+        justify-content: flex-start;
         gap: 0.75rem;
         text-align: left;
         padding: 0.75rem 1rem;
-        min-width: unset;
     }
 
     .stepnum {
         margin-bottom: 0;
         white-space: nowrap;
-    }
-
-    .steparrow {
-        transform: rotate(90deg);
-        padding: 0.2rem 0;
     }
 }
 
