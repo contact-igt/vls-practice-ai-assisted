@@ -164,7 +164,7 @@ const ContactForm = ({ ipAddress }) => {
     }
 
     const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_Ss2NFtpJFLRAiw",
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
       amount: order.amount,
       currency: order.currency,
       name: formValues.name,
