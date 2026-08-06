@@ -18,7 +18,7 @@ export const programConfig = {
   classStartAt: "2026-08-15T10:30:00+05:30",
   duration: "3 Hours",
   mode: "Live on Google Meet (Interactive Q&A)",
-  language: "Tamil",
+  language: "English / Tamil",
   fee: 499,
   recordingProvided: false,
   certificateProvided: true, // only to attendees who complete 80%+ of the session
@@ -357,7 +357,7 @@ export const HomePage = {
     {
       id: 8,
       question: "What is the language of instruction?",
-      answer: "Tamil \u2014 for clarity and accessibility.",
+      answer: "English & Tamil \u2014 for clarity and accessibility.",
     },
     {
       id: 9,

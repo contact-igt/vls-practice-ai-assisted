@@ -1,4 +1,4 @@
-﻿import Head from "next/head";
+import Head from "next/head";
 import React from "react";
 import { programConfig } from "@/constants/Home";
 import { isRegistrationOpen } from "@/utils/programStatus";
@@ -27,7 +27,7 @@ export const MetaTitle = ({ title, description, keywords }) => {
       sameAs: "https://www.vlslawacademy.com/",
     },
     courseMode: "Online",
-    inLanguage: "ta",
+    inLanguage: ["en", "ta"],
     ...(registrationOpen
       ? {
           offers: {
