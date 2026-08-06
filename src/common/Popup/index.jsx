@@ -1,13 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./styles.module.css";
 
-export const Popup = ({ children, open, onClose, variant="default" }) => {
+export const Popup = ({ children, open, onClose, variant="default", closeOnOutsideClick = true }) => {
   const wrapperRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        onClose();
+      if (closeOnOutsideClick && wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        if (typeof onClose === "function") {
+          onClose();
+        }
       }
     };
     if (open) {
@@ -16,7 +18,7 @@ export const Popup = ({ children, open, onClose, variant="default" }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [open, onClose]);
+  }, [open, onClose, closeOnOutsideClick]);
 
   if (!open) return null;
 

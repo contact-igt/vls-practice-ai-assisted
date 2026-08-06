@@ -41,7 +41,7 @@ const ContactForm = ({ ipAddress }) => {
   };
 
   const getProgramDate = () =>
-    programConfig.sessionStatus === "announced" && programConfig.date
+    isRegistrationOpen(programConfig) && programConfig.date
       ? programConfig.date
       : "TBA";
 
@@ -51,7 +51,8 @@ const ContactForm = ({ ipAddress }) => {
     mobile: `+91${values?.mobile || ""}`,
     programm_date: getProgramDate(),
     page_name: "decoding-of-practice",
-    ip_address: ipAddress,
+    ip_address: ipAddress || "",
+    client_key: "vls_law",
     utm_source: getUTM("utm_source"),
     utm_medium: getUTM("utm_medium"),
     utm_campaign: getUTM("utm_campaign"),
@@ -64,7 +65,7 @@ const ContactForm = ({ ipAddress }) => {
 
     const apiPayload = {
       ...createBasePayload(values),
-      amount: "",
+      amount: 0,
       razorpay_order_id: "",
       razorpay_payment_id: "",
       razorpay_signature: "",
@@ -72,6 +73,11 @@ const ContactForm = ({ ipAddress }) => {
       captured: "",
     };
 
+    try {
+      await registerUserToDB(apiPayload);
+    } catch (err) {
+      console.error("Database registration failed for waitlist:", err);
+    }
     await safeSetPaymentDetails(apiPayload);
 
     const params = new URLSearchParams();
@@ -158,7 +164,7 @@ const ContactForm = ({ ipAddress }) => {
     }
 
     const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_Ss2NFtpJFLRAiw",
       amount: order.amount,
       currency: order.currency,
       name: formValues.name,
@@ -180,9 +186,14 @@ const ContactForm = ({ ipAddress }) => {
           razorpay_payment_id: response.razorpay_payment_id || "",
           razorpay_signature: response.razorpay_signature || "",
           payment_status: "paid",
-          captured: response.captured || "",
+          captured: response?.captured ? String(response.captured) : "true",
         };
 
+        try {
+          await registerUserToDB(apiPayload);
+        } catch (err) {
+          console.error("Database registration failed after payment:", err);
+        }
         await safeSetPaymentDetails(apiPayload);
 
         const sessionDate =
@@ -190,19 +201,19 @@ const ContactForm = ({ ipAddress }) => {
             ? programConfig.date
             : "Date to be announced";
 
-        try {
-          await handleWhatsappMessage(
-            `91${formValues.mobile}`,
-            formValues.name,
-            programConfig.fee,
-            "Decoding of Practice - AI-Assisted Legal Practice Masterclass",
-            sessionDate,
-            programConfig.mode,
-            sessionDate
-          );
-        } catch (error) {
-          console.error("WhatsApp notification failed after payment", error);
-        }
+        // try {
+        //   await handleWhatsappMessage(
+        //     `91${formValues.mobile}`,
+        //     formValues.name,
+        //     programConfig.fee,
+        //     "Decoding of Practice - AI-Assisted Legal Practice Masterclass",
+        //     sessionDate,
+        //     programConfig.mode,
+        //     sessionDate
+        //   );
+        // } catch (error) {
+        //   console.error("WhatsApp notification failed after payment", error);
+        // }
 
         const params = new URLSearchParams();
         Object.keys(apiPayload).forEach((key) =>
@@ -439,9 +450,12 @@ const ContactForm = ({ ipAddress }) => {
         </div>
       </Popup>
 
-      <Popup open={processing} onClose={() => setProcessing(false)}>
+      <Popup open={processing} closeOnOutsideClick={false}>
         <div className={styles.loadingPopup}>
-          <h4>{registrationOpen ? "? Processing Payment" : "Submitting Details"}</h4>
+          <h4>
+            {'\u26A0\uFE0F'}{" "}
+            {registrationOpen ? "Processing Payment" : "Submitting Details"}
+          </h4>
           <p>Please wait. Do not close or refresh this page.</p>
         </div>
       </Popup>
