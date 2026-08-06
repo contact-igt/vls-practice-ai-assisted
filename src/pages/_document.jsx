@@ -48,7 +48,7 @@ export default function Document() {
         {/* End Google Tag Manager */}
 
         {/* Meta Pixel */}
-        <Script
+        {/* <Script
           dangerouslySetInnerHTML={{
             __html: `!function(f,b,e,v,n,t,s)
               {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -62,7 +62,7 @@ export default function Document() {
               fbq('track', 'PageView');`,
           }}
           strategy="lazyOnload"
-        />
+        /> */}
         {/* End Meta Pixel */}
       </Head>
       <body>

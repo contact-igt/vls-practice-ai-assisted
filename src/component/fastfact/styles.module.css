@@ -16,18 +16,16 @@
 
 }
 
+.cardimg {
+    flex-shrink: 0;
+}
+
 .priceFactCard {
-    width: calc(100% + 2px);
+    width: 100%;
 }
 
 .priceFactCard p {
-    white-space: nowrap;
-}
-
-@media (width < 1400px) {
-    .priceFactCard {
-        width: 100%;
-    }
+    white-space: normal;
 }
 .factpointcard:hover {
     transform: scale(1.08);

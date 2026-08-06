@@ -1,4 +1,4 @@
-// -------------------------------------------------------------------------
+ // -------------------------------------------------------------------------
 // VLS LAW ACADEMY \u2014 DECODING OF PRACTICE
 // Central Program Configuration \u2014 Single Source of Truth
 // All dates, fees, modes and operational details must live HERE only.
@@ -14,7 +14,7 @@ export const programConfig = {
   sessionStatus: SESSION_STATUS,
   // Set these only when SESSION_STATUS is "announced" and a real date is confirmed:
   date: "Saturday, 15 August 2026",
-  time: "10:30 AM - 12:30 PM IST",
+  time: "10:30 AM - 01:30 PM IST",
   classStartAt: "2026-08-15T10:30:00+05:30",
   duration: "3 Hours",
   mode: "Live on Google Meet (Interactive Q&A)",
