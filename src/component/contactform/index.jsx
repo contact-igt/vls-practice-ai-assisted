@@ -45,20 +45,25 @@ const ContactForm = ({ ipAddress }) => {
       ? programConfig.date
       : "TBA";
 
-  const createBasePayload = (values) => ({
-    name: values?.name || "",
-    email: values?.email || "",
-    mobile: `+91${values?.mobile || ""}`,
-    programm_date: getProgramDate(),
-    page_name: "decoding-of-practice",
-    ip_address: ipAddress || "",
-    client_key: "vls_law",
-    utm_source: getUTM("utm_source"),
-    utm_medium: getUTM("utm_medium"),
-    utm_campaign: getUTM("utm_campaign"),
-    utm_term: getUTM("utm_term"),
-    utm_content: getUTM("utm_content"),
-  });
+  const createBasePayload = (values) => {
+    const rawMobile = values?.mobile || "";
+    const cleanMobile = rawMobile.replace(/\D/g, "").replace(/^91/, "").slice(-10);
+
+    return {
+      name: values?.name?.trim() || "",
+      email: values?.email?.trim().toLowerCase() || "",
+      mobile: cleanMobile ? `+91${cleanMobile}` : "",
+      programm_date: getProgramDate(),
+      page_name: programConfig.pageName || "decoding-of-practice",
+      ip_address: ipAddress || "",
+      client_key: "vls_law",
+      utm_source: getUTM("utm_source"),
+      utm_medium: getUTM("utm_medium"),
+      utm_campaign: getUTM("utm_campaign"),
+      utm_term: getUTM("utm_term"),
+      utm_content: getUTM("utm_content"),
+    };
+  };
 
   const submitWaitlist = async (values) => {
     setProcessing(true);
@@ -101,18 +106,29 @@ const ContactForm = ({ ipAddress }) => {
     },
 
     validationSchema: Yup.object({
-      name: Yup.string().matches(/^[a-zA-Z ]*$/, "Invalid name"),
+      name: Yup.string()
+        .matches(
+          /^[a-zA-Z\s'.]*$/,
+          "Name can only contain letters, spaces, dots and apostrophes"
+        )
+        .max(100, "Name must not exceed 100 characters"),
       email: Yup.string()
-        .required("Email required")
-        .email("Enter valid email")
+        .required("Email is required")
+        .matches(
+          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+          "Enter a valid email address (e.g. name@gmail.com)"
+        )
         .test(
           "lowercase",
           "Email must be lowercase",
           (v) => !v || v === v.toLowerCase()
         ),
       mobile: Yup.string()
-        .required("Mobile required")
-        .matches(/^[0-9]{10}$/, "Invalid mobile number"),
+        .required("Mobile number is required")
+        .matches(
+          /^[6-9][0-9]{9}$/,
+          "Enter a valid 10-digit mobile number"
+        ),
     }),
 
     onSubmit: async (values) => {
@@ -353,29 +369,45 @@ const ContactForm = ({ ipAddress }) => {
 
           <div className={styles.inputgrp}>
             <label>
-              Email<span>*</span>
+              Email<span style={{ color: "#b20a0a", marginLeft: "2px" }}>*</span>
             </label>
             <input
-              type="text"
+              type="email"
               className="form-control"
               placeholder="Email"
-              {...formik.getFieldProps("email")}
+              name="email"
+              value={formik.values.email}
+              onChange={(e) => {
+                formik.setFieldValue("email", e.target.value.toLowerCase().trim());
+              }}
+              onBlur={formik.handleBlur}
             />
             {formik.touched.email && formik.errors.email && (
-              <small style={{ fontSize: "12px" }}>{formik.errors.email}</small>
+              <small style={{ fontSize: "12px", color: "#dc3545" }}>
+                {formik.errors.email}
+              </small>
             )}
           </div>
 
           <div className={styles.inputgrp}>
             <label>
-              Mobile<span>*</span>
+              Mobile<span style={{ color: "#b20a0a", marginLeft: "2px" }}>*</span>
             </label>
             <div className="position-relative">
               <input
                 type="text"
                 className={`${styles.inputmobile} form-control `}
                 placeholder="Mobile"
-                {...formik.getFieldProps("mobile")}
+                name="mobile"
+                value={formik.values.mobile}
+                onChange={(e) => {
+                  const cleaned = e.target.value
+                    .replace(/\D/g, "")
+                    .replace(/^91/, "")
+                    .slice(0, 10);
+                  formik.setFieldValue("mobile", cleaned);
+                }}
+                onBlur={formik.handleBlur}
               />
               <input
                 className={`${styles.inputmobilecode} form-control position-absolute`}
@@ -384,7 +416,9 @@ const ContactForm = ({ ipAddress }) => {
               />
             </div>
             {formik.touched.mobile && formik.errors.mobile && (
-              <small style={{ fontSize: "12px" }}>{formik.errors.mobile}</small>
+              <small style={{ fontSize: "12px", color: "#dc3545" }}>
+                {formik.errors.mobile}
+              </small>
             )}
           </div>
 

@@ -25,6 +25,11 @@
 
 }
 
+.inputgrp label span {
+    color: #b20a0a !important;
+    margin-left: 2px;
+}
+
 .inputgrp input {
     border: 2px solid #b20a0a;
     margin: 8px 0;
