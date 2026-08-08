@@ -142,8 +142,8 @@ const ContactForm = ({ ipAddress }) => {
       const resp = await fetch("/api/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: HomePage?.razorpay?.amount }),
-        // body: JSON.stringify({ amount: 1 }),
+        // body: JSON.stringify({ amount: HomePage?.razorpay?.amount }),
+        body: JSON.stringify({ amount: 1 }),
       });
 
       order = await resp.json();
@@ -166,6 +166,7 @@ const ContactForm = ({ ipAddress }) => {
 
     const options = {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      // key: "rzp_test_Ss2NFtpJFLRAiw",
       amount: order.amount,
       currency: order.currency,
       name: formValues.name,
