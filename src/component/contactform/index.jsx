@@ -75,6 +75,7 @@ const ContactForm = ({ ipAddress }) => {
       razorpay_payment_id: "",
       razorpay_signature: "",
       payment_status: "waitlist",
+      form_type: "payment",
       captured: "",
     };
 
@@ -204,6 +205,7 @@ const ContactForm = ({ ipAddress }) => {
           razorpay_payment_id: response.razorpay_payment_id || "",
           razorpay_signature: response.razorpay_signature || "",
           payment_status: "paid",
+          form_type: "payment",
           captured: response?.captured ? String(response.captured) : "true",
         };
 
@@ -302,7 +304,7 @@ const ContactForm = ({ ipAddress }) => {
   const handleGoogleSheetForm = async (formData, retries = 3, delay = 1500) => {
     try {
       const res = await fetch(
-        "https://script.google.com/macros/s/AKfycbx130nzdo6NT9hq_szOSMcIR7AbSLL7MCfL_7ho9pHOOvFyYlDybVhBSEW-19xm0X65/exec",
+        "https://script.google.com/macros/s/AKfycbwVWJGKVgMdl_OJZ0u9tVjlp7eaFLQDKtfVZoM3-y0jImvQWmGEKoh9-3tSIKhQZh4A/exec",
         {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
